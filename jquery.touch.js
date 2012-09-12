@@ -34,14 +34,15 @@
             _touch_handler = function (event) {
                 var currentTouchId = null;
                 var currentTouchIndex = null;
+                var newTouch = true;
+
                 if (event.pointerType) {
                     if ((event.pointerType == event.MSPOINTER_TYPE_MOUSE && !options.mouse) || (event.pointerType == event.MSPOINTER_TYPE_PEN && !options.pen)) {
                         return;
-                    } else if (this != _this) {
-                        currentTouchId = event.pointerId;
                     }
+                    currentTouchId = event.pointerId;
                 }
-                else if (event.changedTouches && this != _this) {
+                else if (event.changedTouches) {
                     currentTouchId = event.changedTouches[0].identifier;
                 }
 
@@ -69,12 +70,11 @@
                 }
 
                 if (currentTouchId !== null) {
-                    var ignoreTouch = true;
                     touches = $(_this).data("_touches");
 
                     for (i in touches) {
                         if (touches[i].id == currentTouchId) {
-                            ignoreTouch = false;
+                            newTouch = false;
                             touches[i] = touch; // update the touch object
                             $(_this).data("_touches", touches);
                             currentTouchIndex = i;
@@ -82,7 +82,7 @@
                         }
                     }
 
-                    if (ignoreTouch) {
+                    if (newTouch && this != _this) { // move or end touch not starting from the target element
                         return;
                     }
                 }
@@ -90,7 +90,7 @@
                 var eventType;
 
                 if (event.type == "touchstart" || event.type == "MSPointerDown" || event.type == "mousedown") {
-                    if (touch !== null) {
+                    if (touch !== null && newTouch) {
                         touches = $(this).data("_touches");
                         touches[touches.length] = touch;
                         $(this).data("_touches", touches);
