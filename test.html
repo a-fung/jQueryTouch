@@ -1,0 +1,57 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=0" />
+    <title>jQuery touch test page</title>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.1/jquery.min.js"></script>
+    <script type="text/javascript" src="jquery.touch.min.js"></script>
+</head>
+<style>
+html {
+	-ms-touch-action: none;
+}
+#test-area {
+	background-color: black;
+	color: white;
+	height: 400px;
+	text-align: center;
+}
+#last-event {
+	background-color: white;
+	position: absolute;
+	top: 0;
+}
+#original-event {
+	background-color: white;
+	position: absolute;
+	top: 0;
+	right: 0;
+	height: 300px;
+	overflow: hidden;
+}
+</style>
+<body>
+<div id="test-area">Test area</div>
+<div id="last-event"></div>
+<div id="original-event"></div>
+<script>
+$("#test-area").touchInit();
+
+var last_original_event = null;
+var handler = function(e) {
+	$("#last-event").text(e.type);
+	
+	if(last_original_event != e.originalType)
+	{
+		last_original_event = e.originalType;
+		$("#original-event").html(e.originalType + "<br/>" + $("#original-event").html());
+	}
+};
+
+$("#test-area").on("tstart", handler);
+$("#test-area").on("tmove", handler);
+$("#test-area").on("tend", handler);
+</script>
+</body>
+</html>
