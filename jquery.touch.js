@@ -32,26 +32,16 @@
 
             // adding touch handler
             _touch_handler = function (event) {
-                var currentTouchId = null;
-                var currentTouchIndex = null;
-                var newTouch = true;
+                var currentTouchArray = [],
+                    touchArray = [];
 
                 if (event.pointerType) {
                     if ((event.pointerType == event.MSPOINTER_TYPE_MOUSE && !options.mouse) || (event.pointerType == event.MSPOINTER_TYPE_PEN && !options.pen)) {
                         return;
                     }
-                    currentTouchId = event.pointerId;
-                }
-                else if (event.changedTouches) {
-                    currentTouchId = event.changedTouches[0].identifier;
-                }
-                else {
-                    currentTouchId = 0;
-                }
 
-                var touch = null;
-                if (event.pointerType) {
-                    touch = {
+                    currentTouchArray[0] = event.pointerId;
+                    touchArray[0] = {
                         id: event.pointerId,
                         clientX: event.clientX,
                         clientY: event.clientY,
@@ -61,106 +51,115 @@
                         screenY: event.screenY
                     };
                 } else if (event.changedTouches) {
-                    touch = {
-                        id: event.changedTouches[0].identifier,
-                        clientX: event.changedTouches[0].clientX,
-                        clientY: event.changedTouches[0].clientY,
-                        pageX: event.changedTouches[0].pageX,
-                        pageY: event.changedTouches[0].pageY,
-                        screenX: event.changedTouches[0].screenX,
-                        screenY: event.changedTouches[0].screenY
-                    };
+                    for (var i = 0; i < event.changedTouches.length; i++) {
+                        currentTouchArray[i] = event.changedTouches[i].identifier;
+                        touchArray[i] = {
+                            id: event.changedTouches[i].identifier,
+                            clientX: event.changedTouches[i].clientX,
+                            clientY: event.changedTouches[i].clientY,
+                            pageX: event.changedTouches[i].pageX,
+                            pageY: event.changedTouches[i].pageY,
+                            screenX: event.changedTouches[i].screenX,
+                            screenY: event.changedTouches[i].screenY
+                        };
+                    }
                 } else {
-                    touch = {
+                    currentTouchArray[0] = 0;
+                    touchArray[0] = {
                         id: 0,
                         clientX: event.clientX,
                         clientY: event.clientY,
                         pageX: event.pageX,
                         pageY: event.pageY,
                         screenX: event.screenX,
-                        screenY: event.screenY,
+                        screenY: event.screenY
                     };
                 }
 
-                if (currentTouchId !== null) {
-                    touches = $(_this).data("_touches");
+                for (i in currentTouchArray) {
+                    var touch = touchArray[i],
+                        currentTouchId = currentTouchArray[i],
+                        currentTouchIndex = null,
+                        newTouch = true,
+                        eventType;
 
-                    for (i in touches) {
-                        if (touches[i].id == currentTouchId) {
-                            newTouch = false;
-                            touches[i] = touch; // update the touch object
-                            $(_this).data("_touches", touches);
-                            currentTouchIndex = i;
-                            break;
-                        }
-                    }
+                    if (currentTouchId !== null) {
+                        touches = $(_this).data("_touches");
 
-                    if (newTouch && this != _this) { // move or end touch not starting from the target element
-                        return;
-                    }
-                }
-
-                var eventType;
-
-                if (event.type == "touchstart" || event.type == "MSPointerDown" || event.type == "mousedown") {
-                    if (newTouch) {
-                        touches = $(this).data("_touches");
-                        touches[touches.length] = touch;
-                        $(this).data("_touches", touches);
-                    }
-
-                    if (event.pointerType) {
-                        document.addEventListener("MSPointerMove", _touch_handler, false);
-                        document.addEventListener("MSPointerUp", _touch_handler, false);
-                        document.addEventListener("MSPointerCancel", _touch_handler, false);
-                    } else {
-                        document.addEventListener("touchmove", _touch_handler, false);
-                        document.addEventListener("touchend", _touch_handler, false);
-                        document.addEventListener("touchcancel", _touch_handler, false);
-
-                        if (options.mouse) {
-                            document.addEventListener("mousemove", _touch_handler, false);
-                            document.addEventListener("mouseup", _touch_handler, false);
-                        }
-                    }
-
-                    eventType = "tstart";
-                } else if (event.type == "touchmove" || event.type == "MSPointerMove" || event.type == "mousemove") {
-                    eventType = "tmove";
-                } else if (event.type == "touchend" || event.type == "touchcancel" || event.type == "MSPointerUp" || event.type == "MSPointerCancel" || event.type == "mouseup") {
-                    touches = $(_this).data("_touches");
-                    if (touches.length - 1 != currentTouchIndex) {
-                        touches[currentTouchIndex] = touches[touches.length - 1];
-                    }
-
-                    touches.pop();
-                    $(_this).data("_touches", touches);
-
-                    if (touches.length == 0) {
-
-                        if (event.pointerType) {
-                            document.removeEventListener("MSPointerMove", _touch_handler, false);
-                            document.removeEventListener("MSPointerUp", _touch_handler, false);
-                            document.removeEventListener("MSPointerCancel", _touch_handler, false);
-                        } else {
-                            document.removeEventListener("touchmove", _touch_handler, false);
-                            document.removeEventListener("touchend", _touch_handler, false);
-                            document.removeEventListener("touchcancel", _touch_handler, false);
-
-                            if (options.mouse) {
-                                document.removeEventListener("mousemove", _touch_handler, false);
-                                document.removeEventListener("mouseup", _touch_handler, false);
+                        for (i in touches) {
+                            if (touches[i].id == currentTouchId) {
+                                newTouch = false;
+                                touches[i] = touch; // update the touch object
+                                $(_this).data("_touches", touches);
+                                currentTouchIndex = i;
+                                break;
                             }
                         }
+
+                        if (newTouch && this != _this) { // move or end touch not starting from the target element
+                            return;
+                        }
                     }
 
-                    eventType = "tend";
-                } else { // Unknown event
-                    return;
-                }
+                    if (event.type == "touchstart" || event.type == "MSPointerDown" || event.type == "mousedown") {
+                        if (newTouch) {
+                            touches = $(this).data("_touches");
+                            touches[touches.length] = touch;
+                            $(this).data("_touches", touches);
+                        }
 
-                var tEvent = $.Event(eventType);
-                tEvent = $.extend(
+                        if (event.pointerType) {
+                            document.addEventListener("MSPointerMove", _touch_handler, false);
+                            document.addEventListener("MSPointerUp", _touch_handler, false);
+                            document.addEventListener("MSPointerCancel", _touch_handler, false);
+                        } else {
+                            document.addEventListener("touchmove", _touch_handler, false);
+                            document.addEventListener("touchend", _touch_handler, false);
+                            document.addEventListener("touchcancel", _touch_handler, false);
+
+                            if (options.mouse) {
+                                document.addEventListener("mousemove", _touch_handler, false);
+                                document.addEventListener("mouseup", _touch_handler, false);
+                            }
+                        }
+
+                        eventType = "tstart";
+                    } else if (event.type == "touchmove" || event.type == "MSPointerMove" || event.type == "mousemove") {
+                        eventType = "tmove";
+                    } else if (event.type == "touchend" || event.type == "touchcancel" || event.type == "MSPointerUp" || event.type == "MSPointerCancel" || event.type == "mouseup") {
+                        touches = $(_this).data("_touches");
+                        if (touches.length - 1 != currentTouchIndex) {
+                            touches[currentTouchIndex] = touches[touches.length - 1];
+                        }
+
+                        touches.pop();
+                        $(_this).data("_touches", touches);
+
+                        if (touches.length == 0) {
+
+                            if (event.pointerType) {
+                                document.removeEventListener("MSPointerMove", _touch_handler, false);
+                                document.removeEventListener("MSPointerUp", _touch_handler, false);
+                                document.removeEventListener("MSPointerCancel", _touch_handler, false);
+                            } else {
+                                document.removeEventListener("touchmove", _touch_handler, false);
+                                document.removeEventListener("touchend", _touch_handler, false);
+                                document.removeEventListener("touchcancel", _touch_handler, false);
+
+                                if (options.mouse) {
+                                    document.removeEventListener("mousemove", _touch_handler, false);
+                                    document.removeEventListener("mouseup", _touch_handler, false);
+                                }
+                            }
+                        }
+
+                        eventType = "tend";
+                    } else { // Unknown event
+                        return;
+                    }
+
+                    var tEvent = $.Event(eventType);
+                    tEvent = $.extend(
                     tEvent,
                     {
                         originalType: event.type,
@@ -173,7 +172,8 @@
                         touches: $(_this).data("_touches")
                     });
 
-                try { $(_this).trigger(tEvent); } catch (error) { }
+                    try { $(_this).trigger(tEvent); } catch (error) { }
+                }
 
                 if (options.preventDefault) {
                     event.preventDefault && event.preventDefault();
