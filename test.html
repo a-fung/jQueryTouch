@@ -8,50 +8,110 @@
     <script type="text/javascript" src="jquery.touch.js"></script>
 </head>
 <style>
-html {
-	-ms-touch-action: none;
-}
-#test-area {
-	background-color: black;
-	color: white;
-	height: 400px;
-	text-align: center;
-}
-#last-event {
-	background-color: white;
-	position: absolute;
-	top: 0;
-}
-#original-event {
-	background-color: white;
-	position: absolute;
-	top: 0;
-	right: 0;
-	height: 300px;
-	overflow: hidden;
-}
+    html {
+        -ms-touch-action: none;
+    }
+
+    #test-area {
+        background-color: black;
+        color: white;
+        height: 400px;
+        text-align: center;
+    }
+
+    #last-event {
+        background-color: white;
+        position: absolute;
+        top: 0;
+    }
+
+    #original-event {
+        background-color: white;
+        position: absolute;
+        top: 0;
+        right: 0;
+        height: 300px;
+        overflow: hidden;
+    }
+
+    .string {
+        color: green;
+    }
+
+    .number {
+        color: darkorange;
+    }
+
+    .boolean {
+        color: blue;
+    }
+
+    .null {
+        color: magenta;
+    }
+
+    .key {
+        color: red;
+    }
 </style>
 <body>
-<div id="test-area">Test area</div>
-<div id="last-event"></div>
-<div id="original-event"></div>
-<script>
-$("#test-area").touchInit();
+    <div id="test-area">Test area</div>
+    <div id="last-event">
+        <p id="last-event-name"></p>
+        <pre id="last-event-detail"></pre>
+    </div>
+    <div id="original-event"></div>
+    <script>
+        function syntaxHighlight(json) {
+            if (typeof json != 'string') {
+                json = JSON.stringify(json, undefined, 2);
+            }
+            json = json.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+            return json.replace(/("(\\u[a-zA-Z0-9]{4}|\\[^u]|[^\\"])*"(\s*:)?|\b(true|false|null)\b|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?)/g, function (match) {
+                var cls = 'number';
+                if (/^"/.test(match)) {
+                    if (/:$/.test(match)) {
+                        cls = 'key';
+                    } else {
+                        cls = 'string';
+                    }
+                } else if (/true|false/.test(match)) {
+                    cls = 'boolean';
+                } else if (/null/.test(match)) {
+                    cls = 'null';
+                }
+                return '<span class="' + cls + '">' + match + '</span>';
+            });
+        }
 
-var last_original_event = null;
-var handler = function(e) {
-	$("#last-event").text(e.type);
-	
-	if(last_original_event != e.originalType)
-	{
-		last_original_event = e.originalType;
-		$("#original-event").html(e.originalType + "<br/>" + $("#original-event").html());
-	}
-};
+        $("#test-area").touchInit();
 
-$("#test-area").on("tstart", handler);
-$("#test-area").on("tmove", handler);
-$("#test-area").on("tend", handler);
-</script>
+        var last_original_event = null;
+        var handler = function (e) {
+            $("#last-event-name").text(e.type);
+            var showData =
+                    {
+                        clientX: e.clientX,
+                        clientY: e.clientY,
+                        pageX: e.pageX,
+                        pageY: e.pageY,
+                        screenX: e.screenX,
+                        screenY: e.screenY,
+                        touches: e.touches
+                    };
+            $("#last-event-detail").html(syntaxHighlight(JSON.stringify(showData, undefined, 4)));
+
+            if (last_original_event != e.originalType) {
+                last_original_event = e.originalType;
+                $("#original-event").html(e.originalType + "<br/>" + $("#original-event").html());
+            }
+        };
+
+        $("#test-area").on("tstart", handler);
+        $("#test-area").on("tmove", handler);
+        $("#test-area").on("tend", handler);
+
+
+    </script>
 </body>
 </html>

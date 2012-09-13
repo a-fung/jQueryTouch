@@ -45,6 +45,9 @@
                 else if (event.changedTouches) {
                     currentTouchId = event.changedTouches[0].identifier;
                 }
+                else {
+                    currentTouchId = 0;
+                }
 
                 var touch = null;
                 if (event.pointerType) {
@@ -66,6 +69,16 @@
                         pageY: event.changedTouches[0].pageY,
                         screenX: event.changedTouches[0].screenX,
                         screenY: event.changedTouches[0].screenY
+                    };
+                } else {
+                    touch = {
+                        id: 0,
+                        clientX: event.clientX,
+                        clientY: event.clientY,
+                        pageX: event.pageX,
+                        pageY: event.pageY,
+                        screenX: event.screenX,
+                        screenY: event.screenY,
                     };
                 }
 
@@ -90,7 +103,7 @@
                 var eventType;
 
                 if (event.type == "touchstart" || event.type == "MSPointerDown" || event.type == "mousedown") {
-                    if (touch !== null && newTouch) {
+                    if (newTouch) {
                         touches = $(this).data("_touches");
                         touches[touches.length] = touch;
                         $(this).data("_touches", touches);
@@ -115,20 +128,15 @@
                 } else if (event.type == "touchmove" || event.type == "MSPointerMove" || event.type == "mousemove") {
                     eventType = "tmove";
                 } else if (event.type == "touchend" || event.type == "touchcancel" || event.type == "MSPointerUp" || event.type == "MSPointerCancel" || event.type == "mouseup") {
-                    var removeHandlers = true;
-
-                    if (touch !== null) {
-                        touches = $(_this).data("_touches");
-                        if (touches.length - 1 != currentTouchIndex) {
-                            touches[currentTouchIndex] = touches[touches.length - 1];
-                        }
-
-                        touches.pop();
-                        $(_this).data("_touches", touches);
-                        removeHandlers = touches.length == 0;
+                    touches = $(_this).data("_touches");
+                    if (touches.length - 1 != currentTouchIndex) {
+                        touches[currentTouchIndex] = touches[touches.length - 1];
                     }
 
-                    if (removeHandlers) {
+                    touches.pop();
+                    $(_this).data("_touches", touches);
+
+                    if (touches.length == 0) {
 
                         if (event.pointerType) {
                             document.removeEventListener("MSPointerMove", _touch_handler, false);
@@ -156,15 +164,16 @@
                     tEvent,
                     {
                         originalType: event.type,
-                        clientX: event.clientX,
-                        clientY: event.clientY,
-                        pageX: event.pageX,
-                        pageY: event.pageY,
-                        screenX: event.screenX,
-                        screenY: event.screenY,
-                        touches: $(_this).data("_touches", touches)
+                        clientX: touch.clientX,
+                        clientY: touch.clientY,
+                        pageX: touch.pageX,
+                        pageY: touch.pageY,
+                        screenX: touch.screenX,
+                        screenY: touch.screenY,
+                        touches: $(_this).data("_touches")
                     });
-                $(_this).trigger(tEvent);
+
+                try { $(_this).trigger(tEvent); } catch (error) { }
 
                 if (options.preventDefault) {
                     event.preventDefault && event.preventDefault();
