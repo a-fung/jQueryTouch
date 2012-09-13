@@ -12,13 +12,21 @@
             {
                 preventDefault: true,
                 mouse: true,
-                pen: true
+                pen: true,
+                prefix: ""
             },
             options);
 
-
         if (window.navigator.msPointerEnabled) { // IE10 with touch
             if (options.preventDefault) {
+                var cssNeeded = this.data("_touchtrack-ms-touch-action");
+                if (cssNeeded == undefined || cssNeeded == null) {
+                    cssNeeded = [];
+                }
+
+                cssNeeded[options.prefix + "_track"] = true;
+                this.data("_touchtrack-ms-touch-action", cssNeeded);
+
                 // make default pan and zoom disabled
                 this.css("-ms-touch-action", "none");
             }
@@ -28,7 +36,7 @@
             var _this = this;
             var _touch_handler = null;
             var touches = null;
-            $(this).data("_touches", []);
+            $(this).data(options.prefix + "_touches", []);
 
             // adding touch handler
             _touch_handler = function (event) {
@@ -84,13 +92,13 @@
                         eventType;
 
                     if (currentTouchId !== null) {
-                        touches = $(_this).data("_touches");
+                        touches = $(_this).data(options.prefix + "_touches");
 
                         for (i in touches) {
                             if (touches[i].id == currentTouchId) {
                                 newTouch = false;
                                 touches[i] = touch; // update the touch object
-                                $(_this).data("_touches", touches);
+                                $(_this).data(options.prefix + "_touches", touches);
                                 currentTouchIndex = i;
                                 break;
                             }
@@ -103,9 +111,9 @@
 
                     if (event.type == "touchstart" || event.type == "MSPointerDown" || event.type == "mousedown") {
                         if (newTouch) {
-                            touches = $(this).data("_touches");
+                            touches = $(this).data(options.prefix + "_touches");
                             touches[touches.length] = touch;
-                            $(this).data("_touches", touches);
+                            $(this).data(options.prefix + "_touches", touches);
                         }
 
                         if (event.pointerType) {
@@ -123,17 +131,17 @@
                             }
                         }
 
-                        eventType = "tstart";
+                        eventType = options.prefix + "tstart";
                     } else if (event.type == "touchmove" || event.type == "MSPointerMove" || event.type == "mousemove") {
-                        eventType = "tmove";
+                        eventType = options.prefix + "tmove";
                     } else if (event.type == "touchend" || event.type == "touchcancel" || event.type == "MSPointerUp" || event.type == "MSPointerCancel" || event.type == "mouseup") {
-                        touches = $(_this).data("_touches");
+                        touches = $(_this).data(options.prefix + "_touches");
                         if (touches.length - 1 != currentTouchIndex) {
                             touches[currentTouchIndex] = touches[touches.length - 1];
                         }
 
                         touches.pop();
-                        $(_this).data("_touches", touches);
+                        $(_this).data(options.prefix + "_touches", touches);
 
                         if (touches.length == 0) {
 
@@ -153,7 +161,7 @@
                             }
                         }
 
-                        eventType = "tend";
+                        eventType = options.prefix + "tend";
                     } else { // Unknown event
                         return;
                     }
@@ -169,7 +177,7 @@
                         pageY: touch.pageY,
                         screenX: touch.screenX,
                         screenY: touch.screenY,
-                        touches: $(_this).data("_touches")
+                        touches: $(_this).data(options.prefix + "_touches")
                     });
 
                     try { $(_this).trigger(tEvent); } catch (error) { }
@@ -187,16 +195,32 @@
                 this.addEventListener("touchstart", _touch_handler, false);
                 options.mouse && this.addEventListener("mousedown", _touch_handler, false);
             }
-            $(this).data("_touch_handler", _touch_handler);
+            $(this).data(options.prefix + "_touch_handler", _touch_handler);
         });
     };
 
-    $.fn.touchDispose = function () {
-        // tries to remove everything
+    $.fn.touchDispose = function (prefix) {
+        if (!prefix || typeof (prefix) != "string") {
+            prefix = "";
+        }
+
+        if (window.navigator.msPointerEnabled) { // IE10 with touch
+            var cssNeeded = this.data("_touchtrack-ms-touch-action");
+            if (cssNeeded == undefined || cssNeeded == null) {
+                cssNeeded = [];
+            }
+
+            delete cssNeeded[options.prefix + "_track"];
+            this.data("_touchtrack-ms-touch-action", cssNeeded);
+
+            var i = 0;
+            for (j in cssNeeded) i++;
+            if (i == 0) this.css("-ms-touch-action", "");
+        }
         this.css("-ms-touch-action", "");
 
         this.each(function () {
-            var _touch_handler = $(this).data("_touch_handler");
+            var _touch_handler = $(this).data(prefix + "_touch_handler");
 
             this.removeEventListener("MSPointerDown", _touch_handler, false);
             this.removeEventListener("touchstart", _touch_handler, false);
@@ -213,8 +237,8 @@
             document.removeEventListener("mousemove", _touch_handler, false);
             document.removeEventListener("mouseup", _touch_handler, false);
 
-            $(this).removeData("_touch_handler");
-            $(this).removeData("_touches");
+            $(this).removeData(prefix + "_touch_handler");
+            $(this).removeData(prefix + "_touches");
         });
     };
 })(jQuery);
