@@ -13,6 +13,7 @@
                 preventDefault: true,
                 mouse: true,
                 pen: true,
+                maxtouch: -1,
                 prefix: ""
             },
             options);
@@ -40,15 +41,13 @@
 
             // adding touch handler
             _touch_handler = function (event) {
-                var currentTouchArray = [],
-                    touchArray = [];
+                var touchArray = [];
 
                 if (event.pointerType) {
                     if ((event.pointerType == event.MSPOINTER_TYPE_MOUSE && !options.mouse) || (event.pointerType == event.MSPOINTER_TYPE_PEN && !options.pen)) {
                         return;
                     }
 
-                    currentTouchArray[0] = event.pointerId;
                     touchArray[0] = {
                         id: event.pointerId,
                         clientX: event.clientX,
@@ -60,7 +59,6 @@
                     };
                 } else if (event.changedTouches) {
                     for (var i = 0; i < event.changedTouches.length; i++) {
-                        currentTouchArray[i] = event.changedTouches[i].identifier;
                         touchArray[i] = {
                             id: event.changedTouches[i].identifier,
                             clientX: event.changedTouches[i].clientX,
@@ -72,7 +70,6 @@
                         };
                     }
                 } else {
-                    currentTouchArray[0] = 0;
                     touchArray[0] = {
                         id: 0,
                         clientX: event.clientX,
@@ -84,36 +81,37 @@
                     };
                 }
 
-                for (i in currentTouchArray) {
+                for (i in touchArray) {
                     var touch = touchArray[i],
-                        currentTouchId = currentTouchArray[i],
                         currentTouchIndex = null,
                         newTouch = true,
                         eventType;
 
-                    if (currentTouchId !== null) {
-                        touches = $(_this).data(options.prefix + "_touches");
+                    touches = $(_this).data(options.prefix + "_touches");
 
-                        for (i in touches) {
-                            if (touches[i].id == currentTouchId) {
-                                newTouch = false;
-                                touches[i] = touch; // update the touch object
-                                $(_this).data(options.prefix + "_touches", touches);
-                                currentTouchIndex = i;
-                                break;
-                            }
+                    for (i in touches) {
+                        if (touches[i].id == touch.id) {
+                            newTouch = false;
+                            touches[i] = touch; // update the touch object
+                            $(_this).data(options.prefix + "_touches", touches);
+                            currentTouchIndex = i;
+                            break;
                         }
+                    }
 
-                        if (newTouch && this != _this) { // move or end touch not starting from the target element
-                            return;
-                        }
+                    if (newTouch && this != _this) {
+                        continue;
                     }
 
                     if (event.type == "touchstart" || event.type == "MSPointerDown" || event.type == "mousedown") {
                         if (newTouch) {
                             touches = $(this).data(options.prefix + "_touches");
-                            touches[touches.length] = touch;
-                            $(this).data(options.prefix + "_touches", touches);
+                            if (options.maxtouch < 0 || options.maxtouch > touch.length) {
+                                touches[touches.length] = touch;
+                                $(this).data(options.prefix + "_touches", touches);
+                            } else {
+                                continu;
+                            }
                         }
 
                         if (event.pointerType) {
@@ -131,9 +129,9 @@
                             }
                         }
 
-                        eventType = options.prefix + "tstart";
+                        eventType = "start";
                     } else if (event.type == "touchmove" || event.type == "MSPointerMove" || event.type == "mousemove") {
-                        eventType = options.prefix + "tmove";
+                        eventType = "move";
                     } else if (event.type == "touchend" || event.type == "touchcancel" || event.type == "MSPointerUp" || event.type == "MSPointerCancel" || event.type == "mouseup") {
                         touches = $(_this).data(options.prefix + "_touches");
                         if (touches.length - 1 != currentTouchIndex) {
@@ -161,24 +159,24 @@
                             }
                         }
 
-                        eventType = options.prefix + "tend";
+                        eventType = "end";
                     } else { // Unknown event
-                        return;
+                        continue;
                     }
 
-                    var tEvent = $.Event(eventType);
+                    var tEvent = $.Event(options.prefix + "touch_" + eventType);
                     tEvent = $.extend(
-                    tEvent,
-                    {
-                        originalType: event.type,
-                        clientX: touch.clientX,
-                        clientY: touch.clientY,
-                        pageX: touch.pageX,
-                        pageY: touch.pageY,
-                        screenX: touch.screenX,
-                        screenY: touch.screenY,
-                        touches: $(_this).data(options.prefix + "_touches")
-                    });
+                        tEvent,
+                        {
+                            originalType: event.type,
+                            clientX: touch.clientX,
+                            clientY: touch.clientY,
+                            pageX: touch.pageX,
+                            pageY: touch.pageY,
+                            screenX: touch.screenX,
+                            screenY: touch.screenY,
+                            touches: $(_this).data(options.prefix + "_touches")
+                        });
 
                     try { $(_this).trigger(tEvent); } catch (error) { }
                 }
