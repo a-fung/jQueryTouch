@@ -1,8 +1,4 @@
 (function ($) {
-    $.fn.isTouchSupported = function () {
-        return ('ontouchstart' in window) || window.navigator.msPointerEnabled;
-    };
-
     $.fn.touchInit = function (options) {
         if (!options || typeof (options) != "object") {
             options = {};
@@ -81,7 +77,7 @@
                     };
                 }
 
-                for (i in touchArray) {
+                for (var i = 0; i < touchArray.length; i++) {
                     var touch = touchArray[i],
                         currentTouchIndex = null,
                         newTouch = true,
@@ -89,12 +85,15 @@
 
                     touches = $(_this).data(options.prefix + "_touches");
 
-                    for (i in touches) {
-                        if (touches[i].id == touch.id) {
+                    for (var j = 0; j < touches.length; j++) {
+                        //console.log(touches);
+                        //console.log(touches[j]);
+                        //console.log(touches[j].id);
+                        if (touches[j].id == touch.id) {
                             newTouch = false;
-                            touches[i] = touch; // update the touch object
+                            touches[j] = touch; // update the touch object
                             $(_this).data(options.prefix + "_touches", touches);
-                            currentTouchIndex = i;
+                            currentTouchIndex = j;
                             break;
                         }
                     }
@@ -106,11 +105,11 @@
                     if (event.type == "touchstart" || event.type == "MSPointerDown" || event.type == "mousedown") {
                         if (newTouch) {
                             touches = $(this).data(options.prefix + "_touches");
-                            if (options.maxtouch < 0 || options.maxtouch > touch.length) {
+                            if (options.maxtouch < 0 || options.maxtouch > touches.length) {
                                 touches[touches.length] = touch;
                                 $(this).data(options.prefix + "_touches", touches);
                             } else {
-                                continu;
+                                continue;
                             }
                         }
 
@@ -178,7 +177,8 @@
                             touches: $(_this).data(options.prefix + "_touches")
                         });
 
-                    try { $(_this).trigger(tEvent); } catch (error) { }
+                    try { $(_this).trigger(tEvent); } catch (error) { console.log(error); }
+                    //$(_this).trigger(tEvent);
                 }
 
                 if (options.preventDefault) {
@@ -195,6 +195,8 @@
             }
             $(this).data(options.prefix + "_touch_handler", _touch_handler);
         });
+
+        return this;
     };
 
     $.fn.touchDispose = function (prefix) {
@@ -238,5 +240,7 @@
             $(this).removeData(prefix + "_touch_handler");
             $(this).removeData(prefix + "_touches");
         });
+
+        return this;
     };
 })(jQuery);

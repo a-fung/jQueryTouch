@@ -3,9 +3,10 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=0" />
-    <title>jQuery touch test page</title>
+    <title>jQuery touch test page (Gesture)</title>
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.1/jquery.min.js"></script>
     <script type="text/javascript" src="jquery.touch.js"></script>
+    <script type="text/javascript" src="jquery.gesture.js"></script>
 </head>
 <style>
     html {
@@ -84,32 +85,33 @@
             });
         }
 
-        $("#test-area").touchInit();
+        $("#test-area").gestureInit();
 
         var last_original_event = null;
         var handler = function (e) {
             $("#last-event-name").text(e.type);
             var showData =
                     {
+                    	scale: e.scale,
+                    	rotation: e.rotation,
                         clientX: e.clientX,
                         clientY: e.clientY,
                         pageX: e.pageX,
                         pageY: e.pageY,
                         screenX: e.screenX,
-                        screenY: e.screenY,
-                        touches: e.touches
+                        screenY: e.screenY
                     };
             $("#last-event-detail").html(syntaxHighlight(JSON.stringify(showData, undefined, 2)));
 
-            if (last_original_event != e.originalType) {
-                last_original_event = e.originalType;
-                $("#original-event").html(e.originalType + "<br/>" + $("#original-event").html());
+            if (last_original_event != e.type) {
+                last_original_event = e.type;
+                $("#original-event").html(e.type + "<br/>" + $("#original-event").html());
             }
         };
 
-        $("#test-area").on("touch_start", handler);
-        $("#test-area").on("touch_move", handler);
-        $("#test-area").on("touch_end", handler);
+        $("#test-area").on("gesture_start", handler);
+        $("#test-area").on("gesture_move", handler);
+        $("#test-area").on("gesture_end", handler);
 
 
     </script>
