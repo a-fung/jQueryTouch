@@ -9,24 +9,28 @@
     <script type="text/javascript" src="jquery.gesture.js"></script>
 </head>
 <style>
-    html {
+    html
+    {
         -ms-touch-action: none;
     }
-
-    #test-area {
+    
+    #test-area
+    {
         background-color: black;
         color: white;
         height: 400px;
         text-align: center;
     }
-
-    #last-event {
+    
+    #last-event
+    {
         background-color: white;
         position: absolute;
         top: 0;
     }
-
-    #original-event {
+    
+    #original-event
+    {
         background-color: white;
         position: absolute;
         top: 0;
@@ -34,34 +38,42 @@
         height: 300px;
         overflow: hidden;
     }
-
-    .string {
+    
+    .string
+    {
         color: green;
     }
-
-    .number {
+    
+    .number
+    {
         color: darkorange;
     }
-
-    .boolean {
+    
+    .boolean
+    {
         color: blue;
     }
-
-    .null {
+    
+    .null
+    {
         color: magenta;
     }
-
-    .key {
+    
+    .key
+    {
         color: red;
     }
 </style>
 <body>
-    <div id="test-area">Test area</div>
+    <div id="test-area">
+        Test area</div>
     <div id="last-event">
-        <p id="last-event-name"></p>
+        <p id="last-event-name">
+        </p>
         <pre id="last-event-detail"></pre>
     </div>
-    <div id="original-event"></div>
+    <div id="original-event">
+    </div>
     <script>
         function syntaxHighlight(json) {
             if (typeof json != 'string') {
@@ -87,13 +99,14 @@
 
         $("#test-area").gestureInit();
 
+        var timeout_id = null;
         var last_original_event = null;
         var handler = function (e) {
             $("#last-event-name").text(e.type);
             var showData =
                     {
-                    	scale: e.scale,
-                    	rotation: e.rotation,
+                        scale: e.scale,
+                        rotation: e.rotation,
                         clientX: e.clientX,
                         clientY: e.clientY,
                         pageX: e.pageX,
@@ -106,14 +119,18 @@
             if (last_original_event != e.type) {
                 last_original_event = e.type;
                 $("#original-event").html(e.type + "<br/>" + $("#original-event").html());
+                if (timeout_id !== null) window.clearTimeout(timeout_id);
+                timeout_id = window.setTimeout(
+	                function () {
+	                    $("#original-event").html("");
+	                },
+	                5000);
             }
         };
 
         $("#test-area").on("gesture_start", handler);
         $("#test-area").on("gesture_move", handler);
         $("#test-area").on("gesture_end", handler);
-
-
     </script>
 </body>
 </html>

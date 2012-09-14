@@ -21,7 +21,8 @@
             prefix: options.prefix
         };
 
-        var original_distance, original_angle, id1;
+        var original_distance, original_angle, id1,
+            sqr = function (n) { return n * n; };
 
         var _gesture_handler = function (event) {
             var touches = [],
@@ -30,7 +31,7 @@
                 touches = event.touches;
                 if (event.type == options.prefix + "touch_start") {
                     eventType = "start";
-                    original_distance = Math.sqrt(Math.sqr(touches[0].pageX - touches[1].pageX) + Math.sqr(touches[0].pageY - touches[1].pageY));
+                    original_distance = Math.sqrt(sqr(touches[0].pageX - touches[1].pageX) + sqr(touches[0].pageY - touches[1].pageY));
                     original_angle = Math.atan2(touches[0].pageY - touches[1].pageY, touches[0].pageX - touches[1].pageX);
                     id1 = touches[0].id;
                 } else if (event.type == options.prefix + "touch_move") {
@@ -54,7 +55,7 @@
                 gEvent = $.extend(
                     gEvent,
                     {
-                        scale: Math.sqrt(Math.sqr(touches[0].pageX - touches[1].pageX) + Math.sqr(touches[0].pageY - touches[1].pageY)) / original_distance,
+                        scale: Math.sqrt(sqr(touches[0].pageX - touches[1].pageX) + sqr(touches[0].pageY - touches[1].pageY)) / original_distance,
                         rotation: Math.atan2(touches[0].pageY - touches[1].pageY, touches[0].pageX - touches[1].pageX) - original_angle,
                         clientX: (touches[0].clientX + touches[1].clientX) / 2,
                         clientY: (touches[0].clientY + touches[1].clientY) / 2,
@@ -65,7 +66,6 @@
                     });
 
                 try { $(this).trigger(gEvent); } catch (error) { console.log(error); }
-                //$(this).trigger(gEvent);
             }
         };
 
@@ -74,6 +74,8 @@
         this.on(options.prefix + "touch_move", _gesture_handler);
         this.on(options.prefix + "touch_end", _gesture_handler);
         this.data("_gesture_handler", _gesture_handler);
+
+        return this;
     };
 
     $.fn.gestureDispose = function (prefix) {
@@ -87,9 +89,7 @@
         this.off(prefix + "touch_end", _gesture_handler);
         this.removeData("_gesture_handler");
         this.touchDispose("_gesture_");
+
+        return this;
     };
 })(jQuery);
-
-Math.sqr = function (number) {
-    return number * number;
-};

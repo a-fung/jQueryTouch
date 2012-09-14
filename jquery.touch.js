@@ -86,9 +86,6 @@
                     touches = $(_this).data(options.prefix + "_touches");
 
                     for (var j = 0; j < touches.length; j++) {
-                        //console.log(touches);
-                        //console.log(touches[j]);
-                        //console.log(touches[j].id);
                         if (touches[j].id == touch.id) {
                             newTouch = false;
                             touches[j] = touch; // update the touch object
@@ -178,7 +175,6 @@
                         });
 
                     try { $(_this).trigger(tEvent); } catch (error) { console.log(error); }
-                    //$(_this).trigger(tEvent);
                 }
 
                 if (options.preventDefault) {

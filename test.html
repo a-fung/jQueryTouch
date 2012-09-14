@@ -8,24 +8,28 @@
     <script type="text/javascript" src="jquery.touch.js"></script>
 </head>
 <style>
-    html {
+    html
+    {
         -ms-touch-action: none;
     }
-
-    #test-area {
+    
+    #test-area
+    {
         background-color: black;
         color: white;
         height: 400px;
         text-align: center;
     }
-
-    #last-event {
+    
+    #last-event
+    {
         background-color: white;
         position: absolute;
         top: 0;
     }
-
-    #original-event {
+    
+    #original-event
+    {
         background-color: white;
         position: absolute;
         top: 0;
@@ -33,34 +37,42 @@
         height: 300px;
         overflow: hidden;
     }
-
-    .string {
+    
+    .string
+    {
         color: green;
     }
-
-    .number {
+    
+    .number
+    {
         color: darkorange;
     }
-
-    .boolean {
+    
+    .boolean
+    {
         color: blue;
     }
-
-    .null {
+    
+    .null
+    {
         color: magenta;
     }
-
-    .key {
+    
+    .key
+    {
         color: red;
     }
 </style>
 <body>
-    <div id="test-area">Test area</div>
+    <div id="test-area">
+        Test area</div>
     <div id="last-event">
-        <p id="last-event-name"></p>
+        <p id="last-event-name">
+        </p>
         <pre id="last-event-detail"></pre>
     </div>
-    <div id="original-event"></div>
+    <div id="original-event">
+    </div>
     <script>
         function syntaxHighlight(json) {
             if (typeof json != 'string') {
@@ -86,6 +98,7 @@
 
         $("#test-area").touchInit();
 
+        var timeout_id = null;
         var last_original_event = null;
         var handler = function (e) {
             $("#last-event-name").text(e.type);
@@ -104,14 +117,18 @@
             if (last_original_event != e.originalType) {
                 last_original_event = e.originalType;
                 $("#original-event").html(e.originalType + "<br/>" + $("#original-event").html());
+                if (timeout_id !== null) window.clearTimeout(timeout_id);
+                timeout_id = window.setTimeout(
+	                function () {
+	                    $("#original-event").html("");
+	                },
+	                5000);
             }
         };
 
         $("#test-area").on("touch_start", handler);
         $("#test-area").on("touch_move", handler);
         $("#test-area").on("touch_end", handler);
-
-
     </script>
 </body>
 </html>
