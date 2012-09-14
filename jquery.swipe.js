@@ -1,4 +1,18 @@
+/*!
+* jQuery Touch Library v0.0.5
+* https://github.com/a-fung/jQueryTouch
+*
+* Includes Sizzle.js
+* http://sizzlejs.com/
+*
+* Copyright 2012 Man Kwan Liu
+* Released under the Apache License Version 2.0
+* http://www.apache.org/licenses/
+*
+* Date: Thu Sept 13 2012 23:32:25 GMT-0700 (Pacific Daylight Time)
+*/
 (function ($) {
+    // an easy to use swipe function
     $.fn.swipe = function (handler, options) {
         if (typeof (handler) != "function") return this;
 
@@ -6,20 +20,22 @@
             options = {};
         }
 
+        // default options
         options = $.extend(
             {
                 preventDefault: true,
                 mouse: true,
                 pen: true,
-                distance: 50
+                distance: 50 // default distance to trigger a swipe
             },
             options);
 
+        // touch init options
         var tOptions = {
             preventDefault: options.preventDefault,
             mouse: options.mouse,
             pen: options.pen,
-            maxtouch: 1,
+            maxtouch: 1, // swipe needs only 1 touch point
             prefix: "_swipe_"
         };
 
@@ -68,6 +84,7 @@
             }
         };
 
+        // touch init and handlers adding
         this.touchInit(tOptions);
         this.on("_swipe_touch_start", _handler);
         this.on("_swipe_touch_move", _handler);
