@@ -103,22 +103,26 @@
         this.on(options.prefix + "touch_start", _gesture_handler);
         this.on(options.prefix + "touch_move", _gesture_handler);
         this.on(options.prefix + "touch_end", _gesture_handler);
-        this.data("_gesture_handler", _gesture_handler);
+        this.data(options.gesture_prefix + "_gesture_handler", _gesture_handler);
 
         return this;
     };
 
-    $.fn.gestureDispose = function (prefix) {
+    $.fn.gestureDispose = function (prefix, gesture_prefix) {
         if (!prefix || typeof (prefix) != "string") {
             prefix = "_gesture_";
         }
 
-        var _gesture_handler = this.data("_gesture_handler");
+        if (!gesture_prefix || typeof (gesture_prefix) != "string") {
+            prefix = "";
+        }
+
+        var _gesture_handler = this.data(gesture_prefix + "_gesture_handler");
         this.off(prefix + "touch_start", _gesture_handler);
         this.off(prefix + "touch_move", _gesture_handler);
         this.off(prefix + "touch_end", _gesture_handler);
-        this.removeData("_gesture_handler");
-        this.touchDispose("_gesture_");
+        this.removeData(gesture_prefix + "_gesture_handler");
+        this.touchDispose(prefix);
 
         return this;
     };
