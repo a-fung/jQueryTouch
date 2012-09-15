@@ -1,15 +1,12 @@
 /*!
-* jQuery Touch Library v0.0.5
+* jQueryTouch v0.0.5
 * https://github.com/a-fung/jQueryTouch
-*
-* Includes Sizzle.js
-* http://sizzlejs.com/
 *
 * Copyright 2012 Man Kwan Liu
 * Released under the Apache License Version 2.0
 * http://www.apache.org/licenses/
 *
-* Date: Thu Sept 13 2012 23:32:25 GMT-0700 (Pacific Daylight Time)
+* Date: Thu Sept 14 2012 18:00:31 GMT-0700 (Pacific Daylight Time)
 */
 (function ($) {
     // an easy to use swipe function
