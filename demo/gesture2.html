@@ -1,0 +1,176 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=0" />
+    <title>jQueryTouch gesture demo</title>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.1/jquery.min.js"></script>
+    <script type="text/javascript" src="jquery.touch.js"></script>
+    <script type="text/javascript" src="jquery.gesture.js"></script>
+    <script type="text/javascript" src="jquery.gesture2.js"></script>
+</head>
+<style>
+    html
+    {
+        -ms-touch-action: none;
+    }
+    #drag-target
+    {
+        width: 100px;
+        height: 100px;
+        line-height: 100px;
+        text-align: center;
+        background: black;
+        color: white;
+    }
+</style>
+<body>
+    <input type="checkbox" id="dragcheckbox" checked="checked" />
+    Drag<br />
+    <input type="checkbox" id="scalecheckbox" checked="checked" />
+    Scale<br />
+    <input type="checkbox" id="rotatecheckbox" checked="checked" />
+    Rotate<br />
+    <div id="drag-target">
+        :-)</div>
+    <div>
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        This is the end of this page.</div>
+    <script>
+        var ischecked = function (id) {
+            return $(id).attr("checked") == "checked";
+        };
+        $("#drag-target").gesture(
+	        {
+	            drag: function () { return ischecked("#dragcheckbox"); },
+	            scale: function () { return ischecked("#scalecheckbox"); },
+	            rotate: function () { return ischecked("#rotatecheckbox"); },
+	            touchtarget: null
+	        }
+        );
+    </script>
+</body>
+</html>

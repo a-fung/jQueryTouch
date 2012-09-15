@@ -1,74 +1,245 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html>
-
-  <head>
-    <meta charset='utf-8' />
-    <meta http-equiv="X-UA-Compatible" content="chrome=1" />
-    <meta name="description" content="jQueryTouch : A jQuery touch library for iOS/Android/IE10" />
-
-    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
-
-    <title>jQueryTouch</title>
-  </head>
-
-  <body>
-
-    <!-- HEADER -->
-    <div id="header_wrap" class="outer">
-        <header class="inner">
-          <a id="forkme_banner" href="https://github.com/a-fung/jQueryTouch">View on GitHub</a>
-
-          <h1 id="project_title">jQueryTouch</h1>
-          <h2 id="project_tagline">A jQuery touch library for iOS/Android/IE10</h2>
-
-            <section id="downloads">
-              <a class="zip_download_link" href="https://github.com/a-fung/jQueryTouch/zipball/master">Download this project as a .zip file</a>
-              <a class="tar_download_link" href="https://github.com/a-fung/jQueryTouch/tarball/master">Download this project as a tar.gz file</a>
-            </section>
-        </header>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=0" />
+    <title>jQueryTouch - Home</title>
+    <link href="css/bootstrap.min.css" rel="stylesheet" />
+    <link href="css/bootstrap-responsive.min.css" rel="stylesheet" />
+    <link href="css/docs.css" rel="stylesheet" />
+    <script type="text/javascript" src="js/jquery-1.8.1.min.js"></script>
+    <script type="text/javascript" src="js/bootstrap.min.js"></script>
+</head>
+<body>
+    <div class="navbar navbar-fixed-top navbar-inverse">
+        <div class="navbar-inner">
+            <div class="container">
+                <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </a>
+                <a class="brand" href="index.html">jQueryTouch</a>
+                <div class="nav-collapse">
+                    <ul class="nav">
+                        <li class="active"><a href="index.html">Home</a></li>
+                        <li><a href="touch.html">jquery.touch.js</a></li>
+                        <li><a href="gesture.html">jquery.gesture.js</a></li>
+                        <li><a href="gesture2.html">jquery.gesture2.js</a></li>
+                        <li><a href="swipe.html">jquery.swipe.js</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="header">
+        <div class="container">
+            <div class="row">
+                <div class="span10 offset1">
+                    <a id="forkme_banner" href="https://github.com/a-fung/jQueryTouch">View on GitHub</a>
+                    <div class="header-inner-index">
+                        <h1>jQueryTouch</h1>
+                        <p>A set of jQuery plugins for unifying mouse/touch events across different browsers.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
-    <!-- MAIN CONTENT -->
-    <div id="main_content_wrap" class="outer">
-      <section id="main_content" class="inner">
-        <h3>Welcome to GitHub Pages.</h3>
-
-<p>This automatic page generator is the easiest way to create beautiful pages for all of your projects. Author your page content here using GitHub Flavored Markdown, select a template crafted by a designer, and publish. After your page is generated, you can check out the new branch:</p>
-
-<pre><code>$ cd your_repo_root/repo_name
-$ git fetch origin
-$ git checkout gh-pages
-</code></pre>
-
-<p>If you're using the GitHub for Mac, simply sync your repository and you'll see the new branch.</p>
-
-<h3>Designer Templates</h3>
-
-<p>We've crafted some handsome templates for you to use. Go ahead and continue to layouts to browse through them. You can easily go back to edit your page before publishing. After publishing your page, you can revisit the page generator and switch to another theme. Your Page content will be preserved if it remained markdown format.</p>
-
-<h3>Rather Drive Stick?</h3>
-
-<p>If you prefer to not use the automatic generator, push a branch named <code>gh-pages</code> to your repository to create a page manually. In addition to supporting regular HTML content, GitHub Pages support Jekyll, a simple, blog aware static site generator written by our own Tom Preston-Werner. Jekyll makes it easy to create site-wide headers and footers without having to copy them across every page. It also offers intelligent blog support and other advanced templating features.</p>
-
-<h3>Authors and Contributors</h3>
-
-<p>You can <a href="https://github.com/blog/821" class="user-mention">@mention</a> a GitHub username to generate a link to their profile. The resulting <code>&lt;a&gt;</code> element will link to the contributor's GitHub Profile. For example: In 2007, Chris Wanstrath (<a href="https://github.com/defunkt" class="user-mention">@defunkt</a>), PJ Hyett (<a href="https://github.com/pjhyett" class="user-mention">@pjhyett</a>), and Tom Preston-Werner (<a href="https://github.com/mojombo" class="user-mention">@mojombo</a>) founded GitHub.</p>
-
-<h3>Support or Contact</h3>
-
-<p>Having trouble with Pages? Check out the documentation at <a href="http://help.github.com/pages">http://help.github.com/pages</a> or contact <a href="mailto:support@github.com">support@github.com</a> and we’ll help you sort it out.</p>
-      </section>
+    <div class="container">
+        <div class="row">
+            <div class="span8 offset2">
+                <h2>A Simplified Way To Handle Input.</h2>
+                <p>Add jQueryTouch to your project and forget about implementing handlers for all different browsers.</p>
+                <p>The first jQuery plugin that handles both iOS touch events and IE10 pointer events.</p>
+                <hr>
+                <h3>Getting Started</h3>
+                <h4>Download jQueryTouch</h4>
+                <p>Depends on your need, you can download minified scripts or go to the project page to download a development version of the scripts.</p>
+                <div class="row">
+                    <div class="span4">
+                        <p>
+                            <a href="jquerytouch.zip" class="btn btn-block btn-primary">Download minified scripts</a>
+                        </p>
+                    </div>
+                    <div class="span4">
+                        <p>
+                            <a href="https://github.com/a-fung/jQueryTouch" class="btn btn-block">View on GitHub</a>
+                        </p>
+                    </div>
+                </div>
+                <hr>
+                <h4>Adding jQueryTouch to your project</h4>
+                <p>Simply add the following code to pages that need to handle touch.</p>
+                <pre>&lt;script type=&quot;text/javascript&quot; src=&quot;jquery.touch.js&quot;&gt;&lt;/script&gt;</pre>
+                <p>There are totally 4 script files in jQueryTouch. You can add them depending on your need.</p>
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>File</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><a href="touch.html"><code>jquery.touch.js</code></a></td>
+                            <td>This file contains functions that handle all touch, pointer and click events and trigger unified touch events.</td>
+                        </tr>
+                        <tr>
+                            <td><a href="gesture.html"><code>jquery.gesture.js</code></a></td>
+                            <td>Handles unified touch events and will trigger unified gesture events based on two unified touch points.<br />
+                                Requires <code>jquery.touch.js</code> on the same page.</td>
+                        </tr>
+                        <tr>
+                            <td><a href="gesture2.html"><code>jquery.gesture2.js</code></a></td>
+                            <td>Handles unified gesture events and will transform(move/scale/rotate) jQuery objects.<br />
+                                Requires <code>jquery.touch.js</code> and <code>jquery.gesture.js</code> on the same page.</td>
+                        </tr>
+                        <tr>
+                            <td><a href="swipe.html"><code>jquery.swipe.js</code></a></td>
+                            <td>Handles unified touch events and will trigger swipe events.<br />
+                                Requires <code>jquery.touch.js</code> on the same page.</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <p>Click on the file names to see the documentation of the API of the files.</p>
+                <hr>
+                <h4>Using jQueryTouch</h4>
+                <p>Before unified touch events are triggered, you need to call the <code>.touchInit()</code> function like the following.</p>
+                <pre>$(&quot;#touch-target&quot;).touchInit();</pre>
+                <p>Then you need to add unified touch event handlers.</p>
+                <pre>var handler = function (event) {
+    // your handler logic goes here
+};
+$(&quot;#touch-target&quot;).on(&quot;touch_start&quot;, handler);
+$(&quot;#touch-target&quot;).on(&quot;touch_move&quot;, handler);
+$(&quot;#touch-target&quot;).on(&quot;touch_end&quot;, handler);</pre>
+                <p>You may want to have different handlers for different events.</p>
+                <pre>var start_handler = function (event) {
+    // your handler logic goes here
+};
+var move_handler = function (event) {
+    // your handler logic goes here
+};
+var end_handler = function (event) {
+    // your handler logic goes here
+};
+$(&quot;#touch-target&quot;).on(&quot;touch_start&quot;, start_handler);
+$(&quot;#touch-target&quot;).on(&quot;touch_move&quot;, move_handler);
+$(&quot;#touch-target&quot;).on(&quot;touch_end&quot;, end_handler);</pre>
+                <p>Go to the documentation of <code>jquery.touch.js</code> to see what properties the event object has.</p>
+                <hr>
+                <h3>Browser support</h3>
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Browser</th>
+                            <th>Touch/<br />
+                                Pointer</th>
+                            <th>jquery.<br />
+                                touch.js*</th>
+                            <th>jquery.<br />
+                                gesture2.js</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Internet Explorer 8</td>
+                            <td class="red">No</td>
+                            <td class="green">Yes</td>
+                            <td class="red">No</td>
+                        </tr>
+                        <tr>
+                            <td>Internet Explorer 9</td>
+                            <td class="red">No</td>
+                            <td class="green">Yes</td>
+                            <td class="green">Yes</td>
+                        </tr>
+                        <tr>
+                            <td>Internet Explorer 10</td>
+                            <td class="green">Pointer</td>
+                            <td class="green">Yes</td>
+                            <td class="green">Yes</td>
+                        </tr>
+                        <tr>
+                            <td>Firefox 4+</td>
+                            <td class="red">No</td>
+                            <td class="green">Yes</td>
+                            <td class="green">Yes</td>
+                        </tr>
+                        <tr>
+                            <td>Chrome</td>
+                            <td class="red">No</td>
+                            <td class="green">Yes</td>
+                            <td class="green">Yes</td>
+                        </tr>
+                        <tr>
+                            <td>Chrome 22 beta</td>
+                            <td class="green">Touch</td>
+                            <td class="green">Yes</td>
+                            <td class="green">Yes</td>
+                        </tr>
+                        <tr>
+                            <td>Safari 3.1+</td>
+                            <td class="red">No</td>
+                            <td class="green">Yes</td>
+                            <td class="green">Yes</td>
+                        </tr>
+                        <tr>
+                            <td>Opera 10.5+</td>
+                            <td class="red">No</td>
+                            <td class="green">Yes</td>
+                            <td class="green">Yes</td>
+                        </tr>
+                        <tr>
+                            <td>Safari on iOS 3.2+</td>
+                            <td class="green">Touch</td>
+                            <td class="green">Yes</td>
+                            <td class="green">Yes</td>
+                        </tr>
+                        <tr>
+                            <td>Android default browser</td>
+                            <td class="green">Touch</td>
+                            <td class="yellow">Partial**</td>
+                            <td class="yellow">Partial**</td>
+                        </tr>
+                        <tr>
+                            <td>Chrome for Android</td>
+                            <td class="green">Touch</td>
+                            <td class="green">Yes</td>
+                            <td class="green">Yes</td>
+                        </tr>
+                        <tr>
+                            <td>Firefox for Android</td>
+                            <td class="green">Touch</td>
+                            <td class="green">Yes</td>
+                            <td class="green">Yes</td>
+                        </tr>
+                        <tr>
+                            <td>Opera Mobile 11+</td>
+                            <td class="green">Touch</td>
+                            <td class="green">Yes</td>
+                            <td class="green">Yes</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <p>* <code>jquery.touch.js</code> is supported means <code>jquery.gesture.js</code> and <code>jquery.swipe.js</code> are also supported on that browser.</p>
+                <p>** Defalt browser on Android may behave differently on different devices. Some devices support multi-touch but will not pass more than 1 touch to the browser.</p>
+                <p>*** Browsers not in the above table may work but are untested. Browsers in the above table but without version specified mean latest version only.</p>
+            </div>
+        </div>
     </div>
 
-    <!-- FOOTER  -->
-    <div id="footer_wrap" class="outer">
-      <footer class="inner">
-        <p class="copyright">jQueryTouch maintained by <a href="https://github.com/a-fung">a-fung</a></p>
-        <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
-      </footer>
+    <div class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="span10 offset1">
+                    <p><a href="https://github.com/a-fung/jQueryTouch">jQueryTouch</a> maintained by <a href="https://github.com/a-fung">a-fung</a></p>
+                    <p>Copyright 2012 Man Kwan Liu</p>
+                    <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
+                </div>
+            </div>
+        </div>
     </div>
-
-    
-
-  </body>
+</body>
 </html>

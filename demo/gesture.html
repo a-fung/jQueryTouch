@@ -1,0 +1,136 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=0" />
+    <title>jQueryTouch test page (Gesture)</title>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.1/jquery.min.js"></script>
+    <script type="text/javascript" src="jquery.touch.js"></script>
+    <script type="text/javascript" src="jquery.gesture.js"></script>
+</head>
+<style>
+    html
+    {
+        -ms-touch-action: none;
+    }
+    
+    #test-area
+    {
+        background-color: black;
+        color: white;
+        height: 400px;
+        text-align: center;
+    }
+    
+    #last-event
+    {
+        background-color: white;
+        position: absolute;
+        top: 0;
+    }
+    
+    #original-event
+    {
+        background-color: white;
+        position: absolute;
+        top: 0;
+        right: 0;
+        height: 300px;
+        overflow: hidden;
+    }
+    
+    .string
+    {
+        color: green;
+    }
+    
+    .number
+    {
+        color: darkorange;
+    }
+    
+    .boolean
+    {
+        color: blue;
+    }
+    
+    .null
+    {
+        color: magenta;
+    }
+    
+    .key
+    {
+        color: red;
+    }
+</style>
+<body>
+    <div id="test-area">
+        Test area</div>
+    <div id="last-event">
+        <p id="last-event-name">
+        </p>
+        <pre id="last-event-detail"></pre>
+    </div>
+    <div id="original-event">
+    </div>
+    <script>
+        function syntaxHighlight(json) {
+            if (typeof json != 'string') {
+                json = JSON.stringify(json, undefined, 2);
+            }
+            json = json.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+            return json.replace(/("(\\u[a-zA-Z0-9]{4}|\\[^u]|[^\\"])*"(\s*:)?|\b(true|false|null)\b|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?)/g, function (match) {
+                var cls = 'number';
+                if (/^"/.test(match)) {
+                    if (/:$/.test(match)) {
+                        cls = 'key';
+                    } else {
+                        cls = 'string';
+                    }
+                } else if (/true|false/.test(match)) {
+                    cls = 'boolean';
+                } else if (/null/.test(match)) {
+                    cls = 'null';
+                }
+                return '<span class="' + cls + '">' + match + '</span>';
+            });
+        }
+
+        $("#test-area").gestureInit();
+
+        var timeout_id = null;
+        var last_original_event = null;
+        var handler = function (e) {
+            $("#last-event-name").text(e.type);
+            var showData =
+                    {
+                        scale: e.scale,
+                        rotation: e.rotation,
+                        clientX: e.clientX,
+                        clientY: e.clientY,
+                        pageX: e.pageX,
+                        pageY: e.pageY,
+                        screenX: e.screenX,
+                        screenY: e.screenY
+                    };
+            $("#last-event-detail").html(syntaxHighlight(JSON.stringify(showData, undefined, 2)));
+
+            if (last_original_event != e.type) {
+                last_original_event = e.type;
+                $("#original-event").html(e.type + "<br/>" + $("#original-event").html());
+                if (timeout_id !== null) window.clearTimeout(timeout_id);
+                timeout_id = window.setTimeout(
+	                function () {
+	                    $("#original-event").html("");
+	                },
+	                5000);
+            }
+        };
+
+        $("#test-area").on("gesture_start", handler);
+        $("#test-area").on("gesture_move", handler);
+        $("#test-area").on("gesture_end", handler);
+    </script>
+</body>
+</html>

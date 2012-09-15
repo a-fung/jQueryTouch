@@ -1,0 +1,110 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=0" />
+    <title>jQueryTouch - jquery.gesture2.js</title>
+    <link href="css/bootstrap.min.css" rel="stylesheet" />
+    <link href="css/bootstrap-responsive.min.css" rel="stylesheet" />
+    <link href="css/docs.css" rel="stylesheet" />
+    <script type="text/javascript" src="js/jquery-1.8.1.min.js"></script>
+    <script type="text/javascript" src="js/bootstrap.min.js"></script>
+</head>
+<body>
+    <div class="navbar navbar-fixed-top navbar-inverse">
+        <div class="navbar-inner">
+            <div class="container">
+                <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </a>
+                <a class="brand" href="index.html">jQueryTouch</a>
+                <div class="nav-collapse">
+                    <ul class="nav">
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="touch.html">jquery.touch.js</a></li>
+                        <li><a href="gesture.html">jquery.gesture.js</a></li>
+                        <li class="active"><a href="gesture2.html">jquery.gesture2.js</a></li>
+                        <li><a href="swipe.html">jquery.swipe.js</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="header">
+        <div class="container">
+            <div class="row">
+                <div class="span10 offset1">
+                    <div class="header-inner">
+                        <h1>jquery.gesture2.js</h1>
+                        <p>Handles unified gesture events and will transform(move/scale/rotate) jQuery objects.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="row">
+            <div class="span8 offset2">
+                <a href="demo/gesture2.html" class="btn btn-info pull-right" target="_blank">Demo page</a>
+                <h3>Usage</h3>
+                <p><code>jquery.gesture2.js</code> requires <code>jquery.touch.js</code> and <code>jquery.gesture.js</code> on the same page.</p>
+                <p>Use the following code to initalize transform on gesture on a jQuery object.</p>
+                <pre>$(&quot;#touch-target&quot;).gesture();</pre>
+                <h4>Options</h4>
+                <p>Options can be passed via an optional argument.</p>
+                <pre>$(&quot;#touch-target&quot;).gesture({
+    drag: true,
+    scale: true,
+    rotate: true,
+    touchtarget: null
+});</pre>
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Type</th>
+                            <th>Default</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>drag<br />
+                                scale<br />
+                                rotate</td>
+                            <td>boolean | function</td>
+                            <td>true</td>
+                            <td>Whether the jQuery object should drag/scale/rotate.<br />
+                                You can pass a function to control the behaviour dynamically</td>
+                        </tr>
+                        <tr>
+                            <td>touchtarget</td>
+                            <td>null | jQuery selector | HTML element | jQuery object</td>
+                            <td>null</td>
+                            <td>Select target which the jQuery object will transform in reponse to.<br />
+                                By default (the null value) will make it responds to touch on itself.<br />
+                                You can pass <code>document</code> then the jQuery object will transform when there is touch anywhere in the browser tab/window.</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <p>Note: it might not work correctly if the jQuery object has any CSS transform rule applied before any gesture.</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="span10 offset1">
+                    <p><a href="https://github.com/a-fung/jQueryTouch">jQueryTouch</a> maintained by <a href="https://github.com/a-fung">a-fung</a></p>
+                    <p>Copyright 2012 Man Kwan Liu</p>
+                    <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,70 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=0" />
+    <title>jQueryTouch test page (swipe)</title>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.1/jquery.min.js"></script>
+    <script type="text/javascript" src="jquery.touch.js"></script>
+    <script type="text/javascript" src="jquery.swipe.js"></script>
+</head>
+<style>
+    html
+    {
+        -ms-touch-action: none;
+    }
+    
+    #test-area
+    {
+        background-color: black;
+        color: white;
+        height: 400px;
+        text-align: center;
+    }
+    
+    #last-event
+    {
+        background-color: white;
+        position: absolute;
+        top: 0;
+    }
+    
+    #original-event
+    {
+        background-color: white;
+        position: absolute;
+        top: 0;
+        right: 0;
+        height: 300px;
+        overflow: hidden;
+    }
+</style>
+<body>
+    <div id="test-area">
+        Test area</div>
+    <div id="last-event">
+        <p id="last-event-name">
+        </p>
+    </div>
+    <div id="original-event">
+    </div>
+    <script>
+        var timeout_id = null;
+        var last_original_event = null;
+        var handler = function (e) {
+            $("#last-event-name").text(e);
+
+            last_original_event = e;
+            $("#original-event").html(e + "<br/>" + $("#original-event").html());
+            if (timeout_id !== null) window.clearTimeout(timeout_id);
+            timeout_id = window.setTimeout(
+                function () {
+                    $("#original-event").html("");
+                },
+                5000);
+        };
+
+        $("#test-area").swipe(handler);
+    </script>
+</body>
+</html>

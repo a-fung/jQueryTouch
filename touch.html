@@ -1,0 +1,228 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=0" />
+    <title>jQueryTouch - jquery.touch.js</title>
+    <link href="css/bootstrap.min.css" rel="stylesheet" />
+    <link href="css/bootstrap-responsive.min.css" rel="stylesheet" />
+    <link href="css/docs.css" rel="stylesheet" />
+    <script type="text/javascript" src="js/jquery-1.8.1.min.js"></script>
+    <script type="text/javascript" src="js/bootstrap.min.js"></script>
+</head>
+<body>
+    <div class="navbar navbar-fixed-top navbar-inverse">
+        <div class="navbar-inner">
+            <div class="container">
+                <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </a>
+                <a class="brand" href="index.html">jQueryTouch</a>
+                <div class="nav-collapse">
+                    <ul class="nav">
+                        <li><a href="index.html">Home</a></li>
+                        <li class="active"><a href="touch.html">jquery.touch.js</a></li>
+                        <li><a href="gesture.html">jquery.gesture.js</a></li>
+                        <li><a href="gesture2.html">jquery.gesture2.js</a></li>
+                        <li><a href="swipe.html">jquery.swipe.js</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="header">
+        <div class="container">
+            <div class="row">
+                <div class="span10 offset1">
+                    <div class="header-inner">
+                        <h1>jquery.touch.js</h1>
+                        <p>This file contains functions that handle all touch, pointer and click events and trigger unified touch events.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="row">
+            <div class="span8 offset2">
+                <a href="demo/touch.html" class="btn btn-info pull-right" target="_blank">Demo page</a>
+                <h3>Usage</h3>
+                <p>Use the following code to initalize touch on a jQuery object.</p>
+                <pre>$(&quot;#touch-target&quot;).touchInit();</pre>
+                <h4>Options</h4>
+                <p>Options can be passed via an optional argument.</p>
+                <pre>$(&quot;#touch-target&quot;).touchInit({
+    preventDefault: true,
+    mouse: true,
+    pen: true,
+    maxtouch: -1,
+    prefix: &quot;&quot;
+});</pre>
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Type</th>
+                            <th>Default</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>preventDefault</td>
+                            <td>boolean</td>
+                            <td>true</td>
+                            <td>prevent default click/touch handlers</td>
+                        </tr>
+                        <tr>
+                            <td>mouse</td>
+                            <td>boolean</td>
+                            <td>true</td>
+                            <td>Whether unified touch event should be triggered from mouse events.</td>
+                        </tr>
+                        <tr>
+                            <td>pen</td>
+                            <td>boolean</td>
+                            <td>true</td>
+                            <td>Whether unified touch event should be triggered from pen input.</td>
+                        </tr>
+                        <tr>
+                            <td>maxtouch</td>
+                            <td>number</td>
+                            <td>-1</td>
+                            <td>The maximum number of simultaneous points to handle and to trigger event. A negative number means unlimited.</td>
+                        </tr>
+                        <tr>
+                            <td>prefix</td>
+                            <td>string</td>
+                            <td>''</td>
+                            <td>Add prefix to the triggering touch event name. It is useful when you want to add handlers with different options. If you pass <code>my_</code> as prefix, the event name <code>touch_start</code> will become <code>my_touch_start</code>. The same applies to <code>touch_move</code> and <code>touch_end</code>.</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <hr>
+                <h4>Events</h4>
+                <p>Three kinds of unified touch events will be triggered in response to native click/touch/pointer events. Use the following code to handle these events</p>
+                <pre>$(&quot;#touch-target&quot;).on(&quot;touch_start&quot;, function(event) {
+	// your handler function
+});</pre>
+                <p>The event name can be modified using the prefix option. There is the description of all the events.</p>
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Default name</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>touch_start</td>
+                            <td>Triggered when a new touch point starts on the target jQuery object.</td>
+                        </tr>
+                        <tr>
+                            <td>touch_move</td>
+                            <td>Triggered when a touch point moves. The event will still trigger even if the touch point moves out of the target jQuery object.</td>
+                        </tr>
+                        <tr>
+                            <td>touch_end</td>
+                            <td>Triggered when a touch point ends or is cancelled.</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <hr>
+                <h4>The event object</h4>
+                <p>An event object will be passed into your handler function. Here is a table of the properties of the event object that is important for handling the event.</p>
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Property name</th>
+                            <th>Type</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>type</td>
+                            <td>string</td>
+                            <td>It is the type of the current event.</td>
+                        </tr>
+                        <tr>
+                            <td>originalType</td>
+                            <td>string</td>
+                            <td>It is the type of the native event triggering the current event.</td>
+                        </tr>
+                        <tr>
+                            <td>clientX<br />
+                                clientY<br />
+                                pageX<br />
+                                pageY<br />
+                                screenX<br />
+                                screenY</td>
+                            <td>number</td>
+                            <td>These are the coordinates of the current touch point triggering the current event.<br />
+                                These are the same as those in the native event object.</td>
+                        </tr>
+                        <tr>
+                            <td>touches</td>
+                            <td>array</td>
+                            <td>It is an array containing all the touches started from the target element and not ended yet.<br />
+                                See the table below for properties of the unified touch object.</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <hr>
+                <h4>The touch object</h4>
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Property name</th>
+                            <th>Type</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>id</td>
+                            <td>number</td>
+                            <td>It is the id of the touch given from the native touch/pointer event.<br />
+                                It will be 0 if the event is triggered from native mouse event.</td>
+                        </tr>
+                        <tr>
+                            <td>clientX<br />
+                                clientY<br />
+                                pageX<br />
+                                pageY<br />
+                                screenX<br />
+                                screenY</td>
+                            <td>number</td>
+                            <td>These are the coordinates of the touch object.<br />
+                                These are the same as those in the native event object.</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <hr>
+                <h4>Dispose</h4>
+                <p>If you are finished with handling unified touch events with the jQuery object. Use the following code to dispose.</p>
+                <pre>$(&quot;#touch-target&quot;).touchDispose();</pre>
+                <p>If you used a prefix in <code>touchInit()</code>, you need to pass the same prefix in <code>touchDispose()</code>.</p>
+                <pre>$(&quot;#touch-target&quot;).touchDispose(&quot;my_&quot;);</pre>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="span10 offset1">
+                    <p><a href="https://github.com/a-fung/jQueryTouch">jQueryTouch</a> maintained by <a href="https://github.com/a-fung">a-fung</a></p>
+                    <p>Copyright 2012 Man Kwan Liu</p>
+                    <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
