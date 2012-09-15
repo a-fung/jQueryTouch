@@ -157,8 +157,8 @@
                                 document.addEventListener("touchcancel", _touch_handler, false);
 
                                 if (options.mouse) { // ignore mouse?
-                                    document.addEventListener("mousemove", _touch_handler, false);
-                                    document.addEventListener("mouseup", _touch_handler, false);
+                                    $(document).on("mousemove", _touch_handler);
+                                    $(document).on("mouseup", _touch_handler);
                                 }
                             }
                         }
@@ -187,8 +187,8 @@
                                 document.removeEventListener("touchcancel", _touch_handler, false);
 
                                 if (options.mouse) { // ignore mouse?
-                                    document.removeEventListener("mousemove", _touch_handler, false);
-                                    document.removeEventListener("mouseup", _touch_handler, false);
+                                    $(document).off("mousemove", _touch_handler);
+                                    $(document).off("mouseup", _touch_handler);
                                 }
                             }
                         }
@@ -232,7 +232,7 @@
                 this.addEventListener("MSPointerDown", _touch_handler, false);
             } else {
                 this.addEventListener("touchstart", _touch_handler, false);
-                options.mouse && this.addEventListener("mousedown", _touch_handler, false);
+                options.mouse && $(this).on("mousedown", _touch_handler);
             }
 
             // store the event handler for dispose method
@@ -268,7 +268,7 @@
 
             this.removeEventListener("MSPointerDown", _touch_handler, false);
             this.removeEventListener("touchstart", _touch_handler, false);
-            this.removeEventListener("mousedown", _touch_handler, false);
+            $(this).off("mousedown", _touch_handler);
 
             document.removeEventListener("MSPointerMove", _touch_handler, false);
             document.removeEventListener("MSPointerUp", _touch_handler, false);
@@ -278,8 +278,8 @@
             document.removeEventListener("touchend", _touch_handler, false);
             document.removeEventListener("touchcancel", _touch_handler, false);
 
-            document.removeEventListener("mousemove", _touch_handler, false);
-            document.removeEventListener("mouseup", _touch_handler, false);
+            $(this).off("mousemove", _touch_handler);
+            $(this).off("mouseup", _touch_handler);
 
             $(this).removeData(prefix + "_touch_handler");
             $(this).removeData(prefix + "_touches");
