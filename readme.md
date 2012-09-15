@@ -17,14 +17,14 @@ You can use `$("#touch-target").on("touch_start", handler)` to handle unified to
 Browser Support
 ---------------
 
-- Internet Explorer 9*
+- Internet Explorer 8-9*
 - Internet Explorer 10
 - Firefox 4+*
 - Google Chrome*
 - Google Chrome Beta (Version 22)
-- Safari 3.2+*
+- Safari 3.1+*
 - Opera 12*
-- Safari on iOS 2.0+
+- Safari on iOS 3.2+
 - Chrome for Android
 - Firefox for Android
 - Opera Mobile
