@@ -1,12 +1,12 @@
 /*!
-* jQueryTouch v0.0.5
+* jQueryTouch v0.0.6
 * https://github.com/a-fung/jQueryTouch
 *
 * Copyright 2012 Man Kwan Liu
 * Released under the Apache License Version 2.0
 * http://www.apache.org/licenses/
 *
-* Date: Thu Sept 14 2012 18:00:31 GMT-0700 (Pacific Daylight Time)
+* Date: Wed Oct 2012 23:14:09 GMT-0700 (Pacific Daylight Time)
 */
 (function ($) {
     // initiate touch handler on jQuery objects
@@ -98,9 +98,9 @@
                     }
                 } else {
                     // This is a mouse event
-                    // Give it an ID of 0
+                    // Give it an ID of -1
                     touchArray[0] = {
-                        id: 0,
+                        id: -1,
                         clientX: event.clientX,
                         clientY: event.clientY,
                         pageX: event.pageX,

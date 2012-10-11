@@ -1,12 +1,12 @@
 /*!
-* jQueryTouch v0.0.5
+* jQueryTouch v0.0.6
 * https://github.com/a-fung/jQueryTouch
 *
 * Copyright 2012 Man Kwan Liu
 * Released under the Apache License Version 2.0
 * http://www.apache.org/licenses/
 *
-* Date: Thu Sept 14 2012 18:00:31 GMT-0700 (Pacific Daylight Time)
+* Date: Wed Oct 2012 23:14:09 GMT-0700 (Pacific Daylight Time)
 */
 (function ($) {
     // an easy to use swipe function
